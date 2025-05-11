@@ -1,0 +1,29 @@
+name: Static HTML CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate HTML files exist
+        run: |
+          if ls *.html; then
+            echo "HTML files found."
+          else
+            echo "No HTML files found!" && exit 1
+          fi
+
+      - name: Upload artifact (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-html
+          path: "*.html"
